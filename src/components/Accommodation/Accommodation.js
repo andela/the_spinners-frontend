@@ -1,22 +1,14 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/styles';
-import {
-	Divider,
-	colors,
-	Stepper,
-	Step,
-	StepLabel,
-	Button,
-	Typography,
-	Paper,
-	Grid
-} from '@material-ui/core';
+import { Divider, colors, Stepper, Step, StepLabel, Paper, Grid } from '@material-ui/core';
 
+import { useDispatch } from 'react-redux';
 import Header from '../common/SettingsHeader';
 import AccommodationForm from './AccommodationForm';
 import RoomsForm from './RoomsForm';
 import AddOnServiceForm from './AddOnServiceForm';
 import AmenitiesForm from './AmenitiesForm';
+import createAccommodation from '../../redux/actions/createAccommodationsAction';
 
 const useStyles = makeStyles(theme => ({
 	divider: {
@@ -42,45 +34,130 @@ const useStyles = makeStyles(theme => ({
 	instructions: {
 		marginTop: theme.spacing(1),
 		marginBottom: theme.spacing(1)
+	},
+	loader: {
+		color: 'white'
 	}
 }));
-
-function getSteps() {
-	return ['Information', 'Add-On Services', 'Amenities', 'Add room'];
-}
-
-function getStepContent(step) {
-	switch (step) {
-		case 0:
-			return <AccommodationForm />;
-		case 1:
-			return <AddOnServiceForm />;
-		case 2:
-			return <AmenitiesForm />;
-		case 3:
-			return <RoomsForm />;
-		default:
-			return 'Unknown step';
-	}
-}
 
 const Settings = props => {
 	const { user } = props;
 	const classes = useStyles();
 	const [activeStep, setActiveStep] = React.useState(0);
-	const steps = getSteps();
+	const [isReady, setIsReady] = React.useState(false);
+	const [formValues, setFormValues] = React.useState({
+		name: '',
+		typeId: 1,
+		locationId: '',
+		rating: 0,
+		description: '',
+		accommodationPictures: [
+			{
+				imageUrl: '',
+				subjectType: ''
+			}
+		],
+		addOnServices: [
+			{
+				serviceName: '',
+				description: '',
+				price: ''
+			}
+		],
+		amenities: [{ amenity: '' }],
+		rooms: [
+			{
+				roomType: '',
+				numberOfPeople: '',
+				roomPictures: [
+					{
+						imageUrl: '',
+						subjectType: ''
+					}
+				],
+				roomPrice: '',
+				numberOfRooms: ''
+			}
+		]
+	});
 
-	const handleNext = () => {
+	const getSteps = () => {
+		return ['Information', 'Add-On Services', 'Amenities', 'Add room'];
+	};
+
+	const dispatch = useDispatch();
+
+	const handleNext = (newValues, status) => {
+		setFormValues({ ...formValues, ...newValues });
+		if (status === 'ready') {
+			setIsReady(true);
+			return 0;
+		}
 		setActiveStep(prevActiveStep => prevActiveStep + 1);
 	};
 
-	const handleBack = () => {
+	const handleBack = newValues => {
+		setFormValues({ ...formValues, ...newValues });
 		setActiveStep(prevActiveStep => prevActiveStep - 1);
 	};
 
-	const handleReset = () => {
-		setActiveStep(0);
+	const steps = getSteps();
+
+	const getStepContent = step => {
+		const isLastStep = activeStep === steps.length - 1;
+		switch (step) {
+			case 0:
+				return (
+					<AccommodationForm
+						formValues={formValues}
+						activeStep={activeStep}
+						handleBack={handleBack}
+						handleNext={handleNext}
+						isLastStep={isLastStep}
+					/>
+				);
+			case 1:
+				return (
+					<AddOnServiceForm
+						formValues={formValues}
+						setFormValues={setFormValues}
+						activeStep={activeStep}
+						handleBack={handleBack}
+						handleNext={handleNext}
+						isLastStep={isLastStep}
+					/>
+				);
+			case 2:
+				return (
+					<AmenitiesForm
+						formValues={formValues}
+						setFormValues={setFormValues}
+						activeStep={activeStep}
+						handleBack={handleBack}
+						handleNext={handleNext}
+						isLastStep={isLastStep}
+					/>
+				);
+			case 3:
+				return (
+					<RoomsForm
+						formValues={formValues}
+						setFormValues={setFormValues}
+						activeStep={activeStep}
+						handleBack={handleBack}
+						handleNext={handleNext}
+						isLastStep={isLastStep}
+					/>
+				);
+			default:
+				return 'Unknown step';
+		}
 	};
+
+	if (isReady) {
+		dispatch(createAccommodation(formValues));
+		setIsReady(false);
+	}
 
 	return (
 		<>
@@ -100,41 +177,7 @@ const Settings = props => {
 						);
 					})}
 				</Stepper>
-				<div>
-					{activeStep === steps.length ? (
-						<div>
-							<Typography className={classes.instructions}>
-								All steps completed - you&apos;re finished
-							</Typography>
-							<Button onClick={handleReset} className={classes.button}>
-								Reset
-							</Button>
-						</div>
-					) : (
-						<div>
-							<Grid className={classes.content}>{getStepContent(activeStep)}</Grid>
-							<Grid style={{ float: 'right' }}>
-								<Button
-									disabled={activeStep === 0}
-									onClick={handleBack}
-									className={classes.button1}
-									variant='contained'
-									color='default'
-								>
-									Back
-								</Button>
-								<Button
-									variant='contained'
-									color='primary'
-									onClick={handleNext}
-									className={classes.button}
-								>
-									{activeStep === steps.length - 1 ? 'Add Accommodation' : 'Next'}
-								</Button>
-							</Grid>
-						</div>
-					)}
-				</div>
+				<Grid className={classes.content}>{getStepContent(activeStep)}</Grid>
 			</div>
 		</>
 	);
