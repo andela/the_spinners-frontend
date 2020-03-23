@@ -29,7 +29,7 @@ import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import * as yup from 'yup';
 import { useSelector } from 'react-redux';
-import Loading from '../common/loading';
+import Loading from '../../common/loading';
 
 const useStyles = makeStyles(theme => ({
 	divider: {

@@ -152,13 +152,26 @@ const Sidebar = ({ handleLogout, isLoading, image, handleProfilePictureChange })
 						path: '/bookings',
 						icon: <BallotOutlinedIcon />,
 						text: 'My Bookings',
-						accessPermission: ['manager'],
+						accessPermission: [
+							'requester',
+							'manager',
+							'super_admin',
+							'travel_team_member',
+							'travel_admin'
+						],
 						id: 6
 					},
 					{
 						path: '/manager/requests',
 						icon: <LoyaltyOutlinedIcon />,
 						text: 'My Approvals',
+						accessPermission: [
+							'requester',
+							'manager',
+							'super_admin',
+							'travel_team_member',
+							'travel_admin'
+						],
 						id: 7
 					}
 				].map(item => {

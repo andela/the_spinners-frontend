@@ -25,7 +25,7 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { Formik, Form } from 'formik';
 import Rating from '@material-ui/lab/Rating';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import getLocations from '../../redux/actions/getLocations';
+import getLocations from '../../../redux/actions/getLocations';
 
 export const countryToFlag = isoCode =>
 	isoCode.toUpperCase().replace(/./g, char => String.fromCodePoint(char.charCodeAt(0) + 127397));
@@ -320,6 +320,8 @@ const AccommodationForm = React.memo(allProps => {
 										<Button
 											variant='contained'
 											color='primary'
+											id='next-button'
+											data-test='nextButton'
 											onClick={props.handleSubmit}
 											className={classes.button}
 											type='submit'

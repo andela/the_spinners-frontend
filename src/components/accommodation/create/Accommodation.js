@@ -3,12 +3,12 @@ import { makeStyles } from '@material-ui/styles';
 import { Divider, colors, Stepper, Step, StepLabel, Paper, Grid } from '@material-ui/core';
 
 import { useDispatch } from 'react-redux';
-import Header from '../common/SettingsHeader';
+import Header from '../../common/SettingsHeader';
 import AccommodationForm from './AccommodationForm';
 import RoomsForm from './RoomsForm';
 import AddOnServiceForm from './AddOnServiceForm';
 import AmenitiesForm from './AmenitiesForm';
-import createAccommodation from '../../redux/actions/createAccommodationsAction';
+import createAccommodation from '../../../redux/actions/createAccommodationsAction';
 
 const useStyles = makeStyles(theme => ({
 	divider: {
@@ -40,8 +40,7 @@ const useStyles = makeStyles(theme => ({
 	}
 }));
 
-const Settings = props => {
-	const { user } = props;
+const AccommodationComponent = () => {
 	const classes = useStyles();
 	const [activeStep, setActiveStep] = React.useState(0);
 	const [isReady, setIsReady] = React.useState(false);
@@ -170,9 +169,7 @@ const Settings = props => {
 						const labelProps = {};
 						return (
 							<Step key={label} {...stepProps}>
-								<StepLabel {...labelProps} user={user}>
-									{label}
-								</StepLabel>
+								<StepLabel {...labelProps}>{label}</StepLabel>
 							</Step>
 						);
 					})}
@@ -183,4 +180,4 @@ const Settings = props => {
 	);
 };
 
-export default Settings;
+export default AccommodationComponent;
