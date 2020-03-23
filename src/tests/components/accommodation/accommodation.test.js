@@ -268,7 +268,7 @@ describe('Test Not found view', () => {
 							subjectType: 'Rooms'
 						}
 					],
-					roomPrice: 20,
+					roomPrice: 6,
 					numberOfRooms: 2
 				}
 			]

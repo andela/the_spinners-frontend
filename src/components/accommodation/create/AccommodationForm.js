@@ -11,7 +11,6 @@ import {
 	CardActions,
 	InputBase,
 	Hidden,
-	Box,
 	Dialog,
 	CircularProgress
 } from '@material-ui/core';
@@ -39,11 +38,11 @@ const useStyles = makeStyles(theme => ({
 		}
 	},
 	button: {
-		width: 300,
+		minWidth: 180,
 		marginBottom: theme.spacing(1)
 	},
 	button1: {
-		width: 300,
+		minWidth: 180,
 		marginRight: theme.spacing(1),
 		marginBottom: theme.spacing(1)
 	},
@@ -55,6 +54,13 @@ const useStyles = makeStyles(theme => ({
 	},
 	loader: {
 		color: 'white'
+	},
+	cardAction: {
+		display: 'block'
+	},
+	centered: {
+		display: 'flex',
+		justifyContent: 'center'
 	}
 }));
 
@@ -291,54 +297,50 @@ const AccommodationForm = React.memo(allProps => {
 										/>
 									</Grid>
 									<Grid item xs={12}>
-										<Box component='fieldset' mb={2} borderColor='transparent'>
-											<Typography component='legend'>Rating</Typography>
-											<Rating
-												name='rating'
-												value={props.values.rating}
-												onChange={(event, newValue) => {
-													props.setFieldValue('rating', newValue);
-												}}
-											/>
-										</Box>
+										<Typography component='legend'>Category</Typography>
+										<Rating
+											name='rating'
+											value={props.values.rating}
+											onChange={(event, newValue) => {
+												props.setFieldValue('rating', newValue);
+											}}
+										/>
 									</Grid>
 								</Grid>
 							</CardContent>
 							<Divider variant='middle' className={classes.divider} />
-							<CardActions style={{ float: 'right' }}>
-								<div>
-									<Grid>
-										<Button
-											disabled={activeStep === 0}
-											onClick={() => handleBack(props.values)}
-											className={classes.button1}
-											variant='contained'
-											color='default'
-										>
-											Back
-										</Button>
-										<Button
-											variant='contained'
-											color='primary'
-											id='next-button'
-											data-test='nextButton'
-											onClick={props.handleSubmit}
-											className={classes.button}
-											type='submit'
-											disabled={
-												!props.values.name ||
-												!props.values.typeId ||
-												!props.values.locationId ||
-												!props.values.description ||
-												!props.values.rating ||
-												props.values.accommodationPictures[0].imageUrl === '' ||
-												Object.keys(props.errors).length !== 0
-											}
-										>
-											{isLastStep ? 'Add Accommodation' : 'Next'}
-										</Button>
-									</Grid>
-								</div>
+							<CardActions className={classes.cardAction}>
+								<Grid style={{ display: 'flex', justifyContent: 'center', left: '50%' }}>
+									<Button
+										disabled={activeStep === 0}
+										onClick={() => handleBack(props.values)}
+										className={classes.button1}
+										variant='contained'
+										color='default'
+									>
+										Back
+									</Button>
+									<Button
+										variant='contained'
+										color='primary'
+										id='next-button'
+										data-test='nextButton'
+										onClick={props.handleSubmit}
+										className={classes.button}
+										type='submit'
+										disabled={
+											!props.values.name ||
+											!props.values.typeId ||
+											!props.values.locationId ||
+											!props.values.description ||
+											!props.values.rating ||
+											props.values.accommodationPictures[0].imageUrl === '' ||
+											Object.keys(props.errors).length !== 0
+										}
+									>
+										{isLastStep ? 'Add Accommodation' : 'Next'}
+									</Button>
+								</Grid>
 							</CardActions>
 						</Form>
 					)}

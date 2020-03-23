@@ -23,16 +23,23 @@ const useStyles = makeStyles(theme => ({
 		margin: theme.spacing(1)
 	},
 	button: {
-		width: 300,
+		minWidth: 180,
 		marginBottom: theme.spacing(1)
 	},
 	button1: {
-		width: 300,
+		minWidth: 180,
 		marginRight: theme.spacing(1),
 		marginBottom: theme.spacing(1)
 	},
 	input: {
 		display: 'none'
+	},
+	cardAction: {
+		display: 'block'
+	},
+	centered: {
+		display: 'flex',
+		justifyContent: 'center'
 	}
 }));
 
@@ -123,32 +130,30 @@ const AmenitiesForm = allProps => {
 							</Grid>
 						</CardContent>
 						<Divider variant='middle' className={classes.divider} />
-						<CardActions style={{ float: 'right' }}>
-							<div>
-								<Grid>
-									<Button
-										disabled={activeStep === 0}
-										onClick={() => handleBack(props.values)}
-										className={classes.button1}
-										variant='contained'
-										color='default'
-									>
-										Back
-									</Button>
-									<Button
-										variant='contained'
-										color='primary'
-										className={classes.button}
-										type='submit'
-										disabled={
-											props.values.amenities[0].amenity === '' ||
-											Object.keys(props.errors).length !== 0
-										}
-									>
-										{isLastStep ? 'Add Accommodation' : 'Next'}
-									</Button>
-								</Grid>
-							</div>
+						<CardActions className={classes.cardAction}>
+							<Grid style={{ display: 'flex', justifyContent: 'center', left: '50%' }}>
+								<Button
+									disabled={activeStep === 0}
+									onClick={() => handleBack(props.values)}
+									className={classes.button1}
+									variant='contained'
+									color='default'
+								>
+									Back
+								</Button>
+								<Button
+									variant='contained'
+									color='primary'
+									className={classes.button}
+									type='submit'
+									disabled={
+										props.values.amenities[0].amenity === '' ||
+										Object.keys(props.errors).length !== 0
+									}
+								>
+									{isLastStep ? 'Add Accommodation' : 'Next'}
+								</Button>
+							</Grid>
 						</CardActions>
 					</Form>
 				)}

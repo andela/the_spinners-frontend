@@ -36,13 +36,23 @@ const useStyles = makeStyles(theme => ({
 		margin: theme.spacing(1)
 	},
 	button: {
-		width: 300,
+		minWidth: 180,
 		marginBottom: theme.spacing(1)
 	},
 	button1: {
-		width: 300,
+		minWidth: 180,
 		marginRight: theme.spacing(1),
 		marginBottom: theme.spacing(1)
+	},
+	loader: {
+		color: 'white'
+	},
+	cardAction: {
+		display: 'block'
+	},
+	centered: {
+		display: 'flex',
+		justifyContent: 'center'
 	}
 }));
 
@@ -344,57 +354,55 @@ const RoomsForm = allProps => {
 									/>
 								</CardContent>
 								<Divider variant='middle' className={classes.divider} />
-								<CardActions style={{ float: 'right' }}>
-									<div>
-										<Grid>
-											<Button
-												disabled={activeStep === 0 || accommodationState.loading}
-												onClick={() => handleBack(props.values)}
-												className={classes.button1}
-												variant='contained'
-												color='default'
-											>
-												Back
-											</Button>
-											<Button
-												variant='contained'
-												color='primary'
-												className={classes.button}
-												type='submit'
-												disabled={
-													!props.values.rooms[0].roomType ||
-													!props.values.rooms[0].numberOfPeople ||
-													!props.values.rooms[0].roomPrice ||
-													!props.values.rooms[0].numberOfRooms ||
-													props.values.rooms[0].roomPictures.length === 0 ||
-													Object.keys(props.errors).length !== 0
-												}
-											>
-												{isLastStep ? (
-													accommodationState.loading ? (
-														<Loading size={18} color='secondary' thickness={6} id='loading' />
-													) : (
-														'Add Accommodation'
-													)
+								<CardActions className={classes.cardAction}>
+									<Grid style={{ display: 'flex', justifyContent: 'center', left: '50%' }}>
+										<Button
+											disabled={activeStep === 0 || accommodationState.loading}
+											onClick={() => handleBack(props.values)}
+											className={classes.button1}
+											variant='contained'
+											color='default'
+										>
+											Back
+										</Button>
+										<Button
+											variant='contained'
+											color='primary'
+											className={classes.button}
+											type='submit'
+											disabled={
+												!props.values.rooms[0].roomType ||
+												!props.values.rooms[0].numberOfPeople ||
+												!props.values.rooms[0].roomPrice ||
+												!props.values.rooms[0].numberOfRooms ||
+												props.values.rooms[0].roomPictures.length === 0 ||
+												Object.keys(props.errors).length !== 0
+											}
+										>
+											{isLastStep ? (
+												accommodationState.loading ? (
+													<Loading size={18} color='secondary' thickness={6} id='loading' />
 												) : (
-													'Next'
-												)}
-											</Button>
-											{accommodationState.response !== '' && (
-												<Alert
-													severity={
-														accommodationState.response.status >= 200 &&
-														accommodationState.response.status <= 299
-															? 'success'
-															: 'error'
-													}
-													id='feedback'
-												>
-													<div>{accommodationState.response.message}</div>
-												</Alert>
+													'Add Accommodation'
+												)
+											) : (
+												'Next'
 											)}
-										</Grid>
-									</div>
+										</Button>
+										{accommodationState.response !== '' && (
+											<Alert
+												severity={
+													accommodationState.response.status >= 200 &&
+													accommodationState.response.status <= 299
+														? 'success'
+														: 'error'
+												}
+												id='feedback'
+											>
+												<div>{accommodationState.response.message}</div>
+											</Alert>
+										)}
+									</Grid>
 								</CardActions>
 							</Form>
 						);
