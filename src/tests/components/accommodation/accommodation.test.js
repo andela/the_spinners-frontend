@@ -9,9 +9,9 @@ import { DropzoneDialog } from 'material-ui-dropzone';
 import ChipInput from 'material-ui-chip-input';
 import configureStore from '../../../redux/store';
 import AccommodationComponent from '../../../components/accommodation/create/Accommodation';
-import RoomsForm from '../../../components/Accommodation/create/RoomsForm';
-import AmenitiesForm from '../../../components/Accommodation/create/AmenitiesForm';
-import AddOnServiceForm from '../../../components/Accommodation/create/AddOnServiceForm';
+import AddOnServiceForm from '../../../components/accommodation/create/AddOnServiceForm';
+import AmenitiesForm from '../../../components/accommodation/create/AmenitiesForm';
+import RoomsForm from '../../../components/accommodation/create/RoomsForm';
 
 describe('Test Not found view', () => {
 	const theme = createMuiTheme({
