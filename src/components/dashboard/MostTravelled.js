@@ -28,9 +28,9 @@ const MostTravelled = () => {
 			http.get(`/api/trips/destinations/most-traveled`).then(response => {
 				if (mounted) {
 					const countries = response.data.data.map(x => x.country);
-					const count = response.data.data.map(x => x.count);
+					const counts = response.data.data.map(x => x.count);
 					setLabels(countries);
-					setData(count);
+					setData(counts);
 				}
 			});
 		};
